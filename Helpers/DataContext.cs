@@ -20,5 +20,25 @@ namespace TrucksAPI.Helpers
         }
 
         public DbSet<Truck> Trucks { get; set; }
+
+        public async Task Init()
+        {
+            if (Trucks.Any()) return;
+
+            const int trucksNumber = 50;
+            for (int i = 0; i < trucksNumber; i++)
+            {
+                Trucks.Add(new Truck()
+                {
+                    Vin = RandomGenerator.GetVin(),
+                    LicensePlate = RandomGenerator.GetLicensePlate(),
+                    Model = RandomGenerator.GetModel(),
+                    StartDate = RandomGenerator.GetDateTime(),
+                    Mileage = RandomGenerator.GetMileage(),
+                });
+            }
+
+            await SaveChangesAsync();
+        }
     }
 }

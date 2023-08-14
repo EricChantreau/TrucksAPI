@@ -28,6 +28,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 
+// Populate database with random data
+{
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+    await context.Init();
+}
+
 // Configure the HTTP request pipeline.
 {
     if (app.Environment.IsDevelopment())
